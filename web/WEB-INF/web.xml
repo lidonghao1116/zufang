@@ -4,9 +4,33 @@
         <servlet-name>status</servlet-name>
         <servlet-class>com.zufang.api.status</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DAOTest</servlet-name>
+        <servlet-class>com.zufang.DAO.DAOTest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>com.zufang.api.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>com.zufang.api.Login</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>status</servlet-name>
         <url-pattern>/api/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DAOTest</servlet-name>
+        <url-pattern>/api/daotest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/api/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/api/Login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

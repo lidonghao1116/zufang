@@ -5,9 +5,10 @@
  */
 package com.zufang.api;
 
+import com.zufang.api.Token;
+import com.zufang.utils.PostStream2JSON;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author moxun.ljf
  */
-public class token extends HttpServlet {
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,13 +38,15 @@ public class token extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            JSONObject json = new JSONObject();
-            try {
-                json.put("token", getToken());
-            } catch (JSONException ex) {
-                Logger.getLogger(token.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            out.println(json.toString());
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Logout</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Logout at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -59,7 +62,13 @@ public class token extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        JSONObject help = new JSONObject();
+        try {
+            help.put("help", "API用途：用户登出，并对已有token做无效处理\n请求方法：POST\n参数格式:{\"username\":\"some_user\"}");
+        } catch (JSONException ex) {
+            Logger.getLogger(Logout.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.getWriter().println(help);
     }
 
     /**
@@ -73,7 +82,21 @@ public class token extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        JSONObject responseData = new JSONObject();
+        try {
+            JSONObject postData = PostStream2JSON.stream2JSONObject(request.getReader());
+            String username = postData.getString("usermane");
+            Token.removeOldToken(username);
+            responseData.put("status", "user " + username + "is already logout, it's token has invalid");
+        } catch (JSONException ex) {
+            try {
+                responseData.put("error", "obtain data failed");
+            } catch (JSONException ex1) {
+                Logger.getLogger(Logout.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+        
+        response.getWriter().println(responseData);
     }
 
     /**
@@ -86,14 +109,4 @@ public class token extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String getToken(){
-        StringBuilder token = new StringBuilder();
-        for(int i=0;i<15;i++){
-            int j = Math.abs(new Random().nextInt() % 51);
-            token.append(characters.charAt(j));
-        }        
-        return token.toString();
-    }
-    
-    String characters = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjkklzxcvbnm";
 }

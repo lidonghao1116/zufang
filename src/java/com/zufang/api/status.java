@@ -5,6 +5,7 @@
  */
 package com.zufang.api;
 
+import com.zufang.DAO.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -38,7 +39,8 @@ public class status extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             JSONObject json = new JSONObject();
             try {
-                json.put("status", "ok");
+                json.put("API", "ok");
+                json.put("Database", DAO.getDBState());
             } catch (JSONException ex) {
                 Logger.getLogger(status.class.getName()).log(Level.SEVERE, null, ex);
             }
