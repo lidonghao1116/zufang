@@ -7,6 +7,7 @@
 package com.zufang.api;
 
 import com.zufang.DAO.DAO;
+import com.zufang.utils.HelpFactory;
 import com.zufang.utils.PostStream2JSON;
 import com.zufang.utils.UserVerify;
 import java.io.IOException;
@@ -64,7 +65,17 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        JSONObject responseData = new JSONObject();
+        try {
+            responseData.put("username", "some_user");
+            responseData.put("password", "password");
+            responseData.put("tel", "13888888888");
+            responseData.put("mail", "somemail@mail.com");
+        } catch (JSONException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.getWriter().println(HelpFactory.getHelp("用户注册，并发送注册验证链接到注册使用的邮箱", "POST", responseData));
     }
 
     /**

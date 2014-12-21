@@ -7,6 +7,7 @@ package com.zufang.api;
 
 import com.zufang.DAO.DAO;
 import com.zufang.servlet.Auth;
+import com.zufang.utils.HelpFactory;
 import com.zufang.utils.PostStream2JSON;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -65,13 +66,16 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         JSONObject help = new JSONObject();
         try {
-            help.put("help", "API用途：用户登入，并保存当前token\n请求方法：POST\n参数格式:{\"username\":\"some_user\",\"password\":\"some_passwd\",\"from\":\"web/mobile\"}");
+            help.put("username", "some_user");
+            help.put("password", "password");
+            help.put("from", "mobile / web");
         } catch (JSONException ex) {
             Logger.getLogger(Logout.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.getWriter().println(help);
+        response.getWriter().println(HelpFactory.getHelp("用户登入，保存并返回当前token", "POST", help));
     }
 
     /**
