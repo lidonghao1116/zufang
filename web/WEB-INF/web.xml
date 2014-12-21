@@ -24,6 +24,10 @@
         <servlet-name>Register</servlet-name>
         <servlet-class>com.zufang.api.Register</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TokenConfirm</servlet-name>
+        <servlet-class>com.zufang.api.TokenConfirm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>status</servlet-name>
         <url-pattern>/api/status</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/api/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TokenConfirm</servlet-name>
+        <url-pattern>/api/TokenConfirm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

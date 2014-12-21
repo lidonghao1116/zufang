@@ -100,6 +100,7 @@ public class Login extends HttpServlet {
             ip = getIP(request);
             if (Auth.checkUser(username, password)) {
                 json.put("status", Auth.getAuthStatus());
+                json.put("resultCode", Auth.getAuthResultCode());
                 Token token = Token.getToken(username);
                 JSONObject tokenJSON = new JSONObject();
                 tokenJSON.put("username", token.getUsername());

@@ -18,24 +18,30 @@ import java.util.logging.Logger;
 public class Auth {
 
     private static String authStatus;
+    private static int authResultCode = 0;
 
     public static boolean checkUser(String username, String password) {
         try {
             String sql = "SELECT * FROM userinfo WHERE username='" + username + "'";
             ResultSet rs = DAO.executeQuery(sql);
+            
             if (!rs.next()) {
                 authStatus = "user " + username + " is not exist.";
+                authResultCode = 4;
             } else {
                 String passwd = rs.getString("password");
                 boolean verifyed = rs.getBoolean("verifyed");
                 if (!passwd.equals(password)) {
                     authStatus = "password of " + username + " is not correct.";
+                    authResultCode = 2;
                 } else {
                     if (!verifyed) {
                         authStatus = "user is not verifyed";
+                        authResultCode = 3;
                         return false;
                     }
                     authStatus = "verify successed.";
+                    authResultCode = 1;
                     DAO.closeDB();
                     rs.close();
                     return true;
@@ -50,5 +56,9 @@ public class Auth {
 
     public static String getAuthStatus() {
         return authStatus;
+    }
+    
+    public static int getAuthResultCode() {
+        return authResultCode;
     }
 }
